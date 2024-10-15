@@ -1,14 +1,21 @@
 {
-  "name": "server-apis",
+  "name": "Server_APIs_Overview",
   "version": "1.0.0",
   "main": "index.js",
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "dev": "tsc -w"
+    "dev": "tsc -w",
+    "start": "node ./dist/server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "express": "^4.21.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0"
+  }
 }
