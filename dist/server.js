@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 const app = express();
 // We need a database of quotes
 const quotes = [
@@ -19,9 +20,10 @@ ie. It sends back an object like the one below:
   quote: 'JavaScript is the tool that turns ideas into reality.'
 }
 */
+app.use(cors());
 app.get('/api/quotes', (_, responseObj) => {
     const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-    responseObj.send(`Quote: ${randomQuote}`);
+    responseObj.send({ quote: randomQuote });
 });
 // app.get('/', (_, responseObj) => {
 //     responseObj.send('Hey! Its me! GOKU!')
