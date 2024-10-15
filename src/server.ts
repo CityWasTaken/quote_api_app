@@ -1,4 +1,6 @@
 import express from 'express';
+import cors from 'cors';
+
 
 const app = express();
 
@@ -23,9 +25,12 @@ ie. It sends back an object like the one below:
 }
 */
 
+
+app.use(cors());
+
 app.get('/api/quotes', (_, responseObj) => {
     const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-    responseObj.send(`Quote: ${randomQuote}`)
+    responseObj.send({quote: randomQuote})
 });
 
 
