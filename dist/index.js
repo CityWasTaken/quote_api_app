@@ -1,22 +1,32 @@
 "use strict";
 // Add an input to the page that the user can type a city into
-// when they submit or hit a button, you should grab the city they typed and make a request to the weather api to get the current weather by that city name
-// Once you have the weather data, output the current temp, wind speed, and humidity for that city
-const cityName = document.querySelector('#city-name');
+// When they submit or hit a button, you should grab the city they typed and make a request to the weather api
+// to get the current weather by that city name
+// Once you have the weather data, output the current temp, wind speed and humidity for that city
+const cityForm = document.querySelector('#city-form');
 function outputWeatherData(weatherData) {
+    const cityOutput = document.querySelector('#city-name');
     const tempOutput = document.querySelector('#temp');
-    tempOutput.innerHTML = `Temp: ${Math.floor(weatherData.main.temp)} &deg`;
+    const windOutput = document.querySelector('#wind');
+    const humidityOutput = document.querySelector('#humidity');
+    console.log(weatherData);
+    if (cityOutput && tempOutput && windOutput && humidityOutput) {
+        cityOutput.innerText = weatherData.name;
+        tempOutput.innerHTML = `Temp: ${Math.round(weatherData.main.temp)}&deg;`;
+        windOutput.innerText = `Wind Speed: ${weatherData.wind.speed}` + 'mph';
+        humidityOutput.innerText = `Humidity: ${weatherData.main.humidity.toString()}%`;
+    }
 }
-async function getWeatherData() {
-    const cityInput = document.querySelector('#city');
-    const apiKey = 'ce7fcb7eb209bd55bab7853868a3ff70';
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&units=metric&appid=` + apiKey;
-    const resObj = await fetch(url);
-    const data = await resObj.json();
+async function getWeatherData(eventObj) {
+    eventObj.preventDefault();
+    const cityInput = document.querySelector('#city-input');
+    const apiKey = '3acc16ffae9e45df92a064e41646355f';
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityInput.value}&units=imperial&appid=` + apiKey;
+    const resObject = await fetch(url);
+    const data = await resObject.json();
     outputWeatherData(data);
 }
-getWeatherData();
-cityName?.addEventListener('submit', getWeatherData);
+cityForm.addEventListener('submit', getWeatherData);
 // async function getStarWarsData () {
 //     const resObj = await fetch('https://swapi.dev/api/people/');
 //     const data = await resObj.json();

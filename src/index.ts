@@ -7,28 +7,43 @@
 
 const cityForm = document.querySelector('#city-form');
 
-function outputWeatherData(weatherData) {
-  const cityOutput = document.querySelector<HTMLHeadingElement>('#city-name');
-  const tempOutput = document.querySelector<HTMLHeadingElement>('#temp');
-  const windOutput = document.querySelector<HTMLHeadingElement>('#wind');
+function outputWeatherData(weatherData: {
+    name: string
+    main: {
+        temp: number
+        humidity: number
+    }
+    wind: {
+        speed: number
+    }
+}) {
+    const cityOutput = document.querySelector<HTMLHeadingElement>('#city-name');
+    const tempOutput = document.querySelector<HTMLHeadingElement>('#temp');
+    const windOutput = document.querySelector<HTMLHeadingElement>('#wind');
+    const humidityOutput = document.querySelector<HTMLParagraphElement>('#humidity');
 
-  cityOutput.innerText = weatherData.name;
-  tempOutput.innerHTML = `Temp: ${Math.round(weatherData.main.temp)}&deg;`;
-  windOutput.innerText = weatherData.wind.speed + 'mph';
+console.log(weatherData);
+
+    if (cityOutput && tempOutput && windOutput && humidityOutput) {
+        cityOutput.innerText = weatherData.name;
+        tempOutput.innerHTML = `Temp: ${Math.round(weatherData.main.temp)}&deg;`;
+        windOutput.innerText = `Wind Speed: ${weatherData.wind.speed}` + 'mph';
+        humidityOutput.innerText = `Humidity: ${weatherData.main.humidity.toString()}%`;
+    }
 }
 
 async function getWeatherData(eventObj) {
-  eventObj.preventDefault();
+    eventObj.preventDefault();
 
-  const cityInput = document.querySelector<HTMLInputElement>('#city-input');
+    const cityInput = document.querySelector<HTMLInputElement>('#city-input');
 
-  const apiKey = '3acc16ffae9e45df92a064e41646355f';
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityInput.value}&units=imperial&appid=` + apiKey;
+    const apiKey = '3acc16ffae9e45df92a064e41646355f';
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityInput.value}&units=imperial&appid=` + apiKey;
 
-  const resObject = await fetch(url);
-  const data = await resObject.json();
+    const resObject = await fetch(url);
+    const data = await resObject.json();
 
-  outputWeatherData(data);
+    outputWeatherData(data);
 }
 
 cityForm.addEventListener('submit', getWeatherData)
