@@ -5,6 +5,7 @@ import api_routes from './routes/api_routes.js';
 import htmlRoutes from './routes/htmlRoutes.js';
 const app = express();
 const PORT = process.env.PORT || 3333;
+app.use(express.static('../client/dist'));
 // Load in Routes
 app.use(api_routes);
 app.use(htmlRoutes);
